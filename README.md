@@ -1,5 +1,14 @@
 # YAML support for the Go language
 
+Why the fork?
+------------
+
+This is a forked verision of [go-yaml](https://github.com/go-yaml/yaml) and
+will be maintained intermittently by me.  It was originally forked to [fix](https://github.com/go-yaml/yaml/pull/124) what
+I thought was a bug, but apparently part of the [YAML Specification](http://www.yaml.org/spec/1.2/spec.html#id2774608).  With
+YAML replacing all line-break characters with "\n" it make it useless for a data exchange format as it does not preserve the original data.
+I want/need YAML to work as a real data exchange format and preserve my line-break characters so I am going to maintain this fork.
+
 Introduction
 ------------
 
@@ -20,18 +29,18 @@ supported since they're a poor design and are gone in YAML 1.2.
 Installation and usage
 ----------------------
 
-The import path for the package is *gopkg.in/yaml.v2*.
+The import path for the package is *gopkg.in/coryb/yaml.v2*.
 
 To install it, run:
 
-    go get gopkg.in/yaml.v2
+    go get gopkg.in/coryb/yaml.v2
 
 API documentation
 -----------------
 
 If opened in a browser, the import path itself leads to the API documentation:
 
-  * [https://gopkg.in/yaml.v2](https://gopkg.in/yaml.v2)
+  * [https://gopkg.in/coryb/yaml.v2](https://gopkg.in/coryb/yaml.v2)
 
 API stability
 -------------
@@ -55,7 +64,7 @@ import (
         "fmt"
         "log"
 
-        "gopkg.in/yaml.v2"
+        "gopkg.in/coryb/yaml.v2"
 )
 
 var data = `
