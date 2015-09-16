@@ -2071,10 +2071,12 @@ func yaml_parser_scan_block_scalar(parser *yaml_parser_t, token *yaml_token_t, l
 
 	// Check for a chomping indicator.
 	var chomping, increment int
-	if parser.buffer[parser.buffer_pos] == '+' || parser.buffer[parser.buffer_pos] == '-' {
+	if parser.buffer[parser.buffer_pos] == '+' || parser.buffer[parser.buffer_pos] == '-' || parser.buffer[parser.buffer_pos] == '~' {
 		// Set the chomping method and eat the indicator.
 		if parser.buffer[parser.buffer_pos] == '+' {
 			chomping = +1
+		} else if parser.buffer[parser.buffer_pos] == '~' {
+			chomping = -2
 		} else {
 			chomping = -1
 		}
@@ -2111,9 +2113,11 @@ func yaml_parser_scan_block_scalar(parser *yaml_parser_t, token *yaml_token_t, l
 		if parser.unread < 1 && !yaml_parser_update_buffer(parser, 1) {
 			return false
 		}
-		if parser.buffer[parser.buffer_pos] == '+' || parser.buffer[parser.buffer_pos] == '-' {
+		if parser.buffer[parser.buffer_pos] == '+' || parser.buffer[parser.buffer_pos] == '-' || parser.buffer[parser.buffer_pos] == '~' {
 			if parser.buffer[parser.buffer_pos] == '+' {
 				chomping = +1
+			} else if parser.buffer[parser.buffer_pos] == '~' {
+				chomping = -2
 			} else {
 				chomping = -1
 			}
@@ -2224,10 +2228,15 @@ func yaml_parser_scan_block_scalar(parser *yaml_parser_t, token *yaml_token_t, l
 	}
 
 	// Chomp the tail.
-	if chomping != -1 {
+	if chomping >= 0 {
 		s = append(s, leading_break...)
 	}
 	if chomping == 1 {
+		s = append(s, trailing_breaks...)
+	}
+	// using ~ as a single-chomp operator so it will only
+	// remove one linebreak, not all of them
+	if chomping == -2 {
 		s = append(s, trailing_breaks...)
 	}
 
