@@ -197,7 +197,7 @@ var (
 	mapItemType    = reflect.TypeOf(MapItem{})
 	durationType   = reflect.TypeOf(time.Duration(0))
 	DefaultMapType = reflect.TypeOf(map[interface{}]interface{}{})
-	IfaceType      = defaultMapType.Elem()
+	IfaceType      = DefaultMapType.Elem()
 )
 
 func newDecoder(strict bool) *decoder {
